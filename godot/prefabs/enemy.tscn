@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://036dtb0m6wax"]
+
+[ext_resource type="Script" uid="uid://bgu2jm8rmxfwo" path="res://scripts/enemy.gd" id="1_6n8dw"]
+[ext_resource type="PackedScene" uid="uid://dpaewk5q3vv87" path="res://prefabs/bullet.tscn" id="2_yfjof"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ry1uq"]
+radius = 8.0
+height = 32.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fb1ex"]
+size = Vector2(16, 32)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 16
+script = ExtResource("1_6n8dw")
+bullet = ExtResource("2_yfjof")
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ry1uq")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+z_index = 1
+y_sort_enabled = true
+texture = SubResource("PlaceholderTexture2D_fb1ex")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 8.0
+path_postprocessing = 2
+avoidance_enabled = true
+radius = 20.0
+time_horizon_agents = 0.5
+debug_enabled = true
