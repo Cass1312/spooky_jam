@@ -1,44 +1,46 @@
-[gd_scene load_steps=13 format=3 uid="uid://cu7holnwdmsyi"]
+[gd_scene load_steps=15 format=3 uid="uid://cu7holnwdmsyi"]
 
 [ext_resource type="Script" uid="uid://dqduv0jr5kj28" path="res://scripts/dungeon_generator.gd" id="1_4wnd8"]
 [ext_resource type="Script" uid="uid://0al2hkou1yj8" path="res://scripts/player.gd" id="1_wgwml"]
-[ext_resource type="PackedScene" uid="uid://cirse2rjgnp3u" path="res://prefabs/summoning_circle.tscn" id="3_4wnd8"]
-[ext_resource type="PackedScene" uid="uid://036dtb0m6wax" path="res://prefabs/enemy.tscn" id="3_fb1ex"]
+[ext_resource type="Texture2D" uid="uid://cr8f5glkahr4w" path="res://sprites/player.png" id="3_qvu5t"]
+[ext_resource type="PackedScene" uid="uid://ci0m183wmpftp" path="res://prefabs/room.tscn" id="4_4wnd8"]
+[ext_resource type="PackedScene" uid="uid://dk1n82ktmgefj" path="res://prefabs/enemies/bazooka_enemy.tscn" id="4_x5n27"]
+[ext_resource type="PackedScene" uid="uid://cj6f6k2kmo8d0" path="res://prefabs/enemies/machine_gun_enemy.tscn" id="5_jsie2"]
+[ext_resource type="PackedScene" uid="uid://d1g4f4f2casta" path="res://prefabs/enemies/circle_enemy.tscn" id="6_jsie2"]
+[ext_resource type="AudioStream" uid="uid://i1anqbuqxhur" path="res://Lunar Dungeon.wav" id="8_pi0uh"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_jsie2"]
-vertices = PackedVector2Array(230, 150, -230, 150, -230, -142, 230, -142)
+vertices = PackedVector2Array(478, 294, -478, 294, -478, -294, 478, -294)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-240, -152, -240, 160, 240, 160, 240, -152)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-488, -304, -488, 304, 488, 304, 488, -304)])
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ry1uq"]
-distance = -150.0
+distance = -300.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_fb1ex"]
 normal = Vector2(0, 1)
-distance = -150.0
+distance = -300.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_4wnd8"]
 normal = Vector2(1, 0)
-distance = -240.0
+distance = -480.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_x5n27"]
 normal = Vector2(-1, 0)
-distance = -240.0
+distance = -480.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wgwml"]
-radius = 8.0
-height = 32.0
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wgwml"]
-size = Vector2(16, 32)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ry1uq"]
-size = Vector2(8, 8)
+radius = 16.0
+height = 64.0
 
 [node name="Scene" type="Node2D"]
 
 [node name="Level" type="Node2D" parent="."]
 script = ExtResource("1_4wnd8")
+room_prefab = ExtResource("4_4wnd8")
+enemy_prefab_1 = ExtResource("4_x5n27")
+enemy_prefab_2 = ExtResource("6_jsie2")
+enemy_prefab_3 = ExtResource("5_jsie2")
 
 [node name="Nav Region" type="NavigationRegion2D" parent="Level"]
 navigation_polygon = SubResource("NavigationPolygon_jsie2")
@@ -74,31 +76,11 @@ MOVE_SPEED = 48.0
 shape = SubResource("CapsuleShape2D_wgwml")
 
 [node name="Sprite" type="Sprite2D" parent="Player"]
-texture = SubResource("PlaceholderTexture2D_wgwml")
+texture = ExtResource("3_qvu5t")
 
-[node name="Weapon" type="Node2D" parent="Player"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("8_pi0uh")
+autoplay = true
 
-[node name="Sprite" type="Sprite2D" parent="Player/Weapon"]
-texture = SubResource("PlaceholderTexture2D_ry1uq")
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(8, 8)
-
-[node name="Enemy" parent="." instance=ExtResource("3_fb1ex")]
-position = Vector2(-44, -39)
-bullet_count = 3
-bullet_recoil = 3.0
-
-[node name="Enemy2" parent="." instance=ExtResource("3_fb1ex")]
-position = Vector2(-160, 56)
-shoot_speed = 0.2
-bullet_damage = 0.1
-
-[node name="Enemy3" parent="." instance=ExtResource("3_fb1ex")]
-position = Vector2(32, 96)
-
-[node name="Enemy4" parent="." instance=ExtResource("3_fb1ex")]
-position = Vector2(152, -64)
-
-[node name="SummoningCircle" parent="." instance=ExtResource("3_4wnd8")]
-position = Vector2(-128, -48)
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)

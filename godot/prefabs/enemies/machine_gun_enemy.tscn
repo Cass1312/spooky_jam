@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cj6f6k2kmo8d0"]
+
+[ext_resource type="PackedScene" uid="uid://036dtb0m6wax" path="res://prefabs/enemy.tscn" id="1_rvwna"]
+[ext_resource type="Texture2D" uid="uid://cqr5hdyrwlti2" path="res://sprites/enemies/machine_gun_enemy.png" id="2_58ap0"]
+
+[node name="Enemy" instance=ExtResource("1_rvwna")]
+shoot_speed = 0.25
+bullet_damage = 0.1
+
+[node name="Sprite" parent="." index="1"]
+texture = ExtResource("2_58ap0")

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk1n82ktmgefj"]
+
+[ext_resource type="PackedScene" uid="uid://036dtb0m6wax" path="res://prefabs/enemy.tscn" id="1_7r510"]
+[ext_resource type="Texture2D" uid="uid://bgljh28o4gtm2" path="res://sprites/enemies/bazooka_enemy.png" id="2_smkjh"]
+
+[node name="Enemy" instance=ExtResource("1_7r510")]
+bullet_count = 5
+bullet_spread = 10
+bullet_damage = 2.5
+bullet_recoil = 1.0
+
+[node name="Sprite" parent="." index="1"]
+texture = ExtResource("2_smkjh")

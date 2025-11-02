@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://qd47s3rd7afy"]
+
+[ext_resource type="PackedScene" uid="uid://dpaewk5q3vv87" path="res://prefabs/bullet.tscn" id="1_piu3n"]
+
+[node name="Bullet" instance=ExtResource("1_piu3n")]
+collision_mask = 5
+
+[node name="Sprite2D" parent="." index="1"]
+self_modulate = Color(0.8392157, 0.13333334, 0, 1)

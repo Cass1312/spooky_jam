@@ -6,6 +6,11 @@ var speed: int = 16;
 
 @onready var player = $"../Player";
 
+func set_vars(damage, speed) -> void:
+	self.damage = damage;
+	self.speed = speed;
+	self.scale = Vector2.ONE * 0.25 * clampf(damage, 0.75, 1.5);
+
 func _physics_process(delta: float) -> void:
 	self.position += delta * self.heading * self.speed;
 

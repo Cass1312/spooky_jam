@@ -1,29 +1,31 @@
 extends CharacterBody2D
 
-@export var MOVE_SPEED: int = 32;
-@export var FLEE_SPEED: int = 28;
+@export var MOVE_SPEED: int = 64;
+@export var FLEE_SPEED: int = 56;
 
 @export var bullet: PackedScene
 @export var shoot_speed: float = 3;
 @export var bullet_count: int = 1;
-@export var bullet_spread: int = 15;
-@export var bullet_speed: int = 64;
+@export var bullet_spread: int = 0;
+@export var bullet_speed: int = 96;
 @export var bullet_randomness: int = 1;
 @export var bullet_damage: float = 1;
 @export var bullet_recoil: float = 0;
-@export var shot_leading_strength: float = 1;
+@export var shot_leading_strength: float = 0.1;
 
-var shoot_timer = shoot_speed * randf();
+@export var health = 5;
+
+var shoot_timer = 0;
 
 var desired_velocity: Vector2 = Vector2.ZERO;
 var recoil_force: Vector2 = Vector2.ZERO;
 
 @onready var nav_agent: NavigationAgent2D = $NavAgent;
-@onready var player = $"../Player";
-
-#func _process(delta: float):
+@onready var player = $"/root/Scene/Player";
 
 func _ready() -> void:
+	shoot_timer = randf_range(0, shoot_speed);
+	
 	var new_agent_rid: RID = self.nav_agent.get_rid();
 	var default_2d_map_rid: RID = get_world_2d().get_navigation_map();
 
@@ -35,12 +37,12 @@ func on_safe_velocity_computed(safe_velocity: Vector2):
 	self.move_and_slide();
 
 func _physics_process(delta: float):
-	self.nav_agent.target_desired_distance = 96;
+	self.nav_agent.target_desired_distance = 192;
 	
 	var speed = MOVE_SPEED;
 	
-	if self.position.distance_squared_to(player.position) > 96*96:
-		self.nav_agent.target_desired_distance = 112;
+	if self.position.distance_squared_to(player.position) > 192*192:
+		self.nav_agent.target_desired_distance = 224;
 		self.nav_agent.set_target_position(player.position);
 	else:
 		speed = FLEE_SPEED;
@@ -62,16 +64,19 @@ func _physics_process(delta: float):
 		var led_shot_position = player.position + (shot_leading_strength * time_to_player * player.velocity);
 		var led_shot_heading = (led_shot_position - self.position).normalized();
 		
-		self.recoil_force += (-led_shot_heading * 64 * bullet_recoil);
+		self.recoil_force += (-led_shot_heading * 128 * bullet_recoil);
 		
 		for i in range(bullet_count):
+			if !owner: continue;
+			
 			var spawned_bullet = bullet.instantiate();
 			owner.add_child(spawned_bullet);
 			
-			spawned_bullet.speed = bullet_speed;
-			spawned_bullet.damage = bullet_damage;
+			@warning_ignore("integer_division")
 			var bullet_heading = led_shot_heading.rotated(((bullet_count / 2) - i) * deg_to_rad(bullet_spread));
 			bullet_heading = bullet_heading.rotated(randf_range(-1, 1) * deg_to_rad(bullet_randomness));
+			
+			spawned_bullet.set_vars(bullet_damage, bullet_speed);
 			spawned_bullet.position = self.position + (bullet_heading * 8);
 			spawned_bullet.heading = bullet_heading;
 		

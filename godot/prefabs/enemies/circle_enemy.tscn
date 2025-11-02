@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1g4f4f2casta"]
+
+[ext_resource type="PackedScene" uid="uid://036dtb0m6wax" path="res://prefabs/enemy.tscn" id="1_1sksx"]
+
+[node name="Enemy" instance=ExtResource("1_1sksx")]
+shoot_speed = 2.0
+bullet_count = 36
+bullet_spread = 10
