@@ -76,7 +76,6 @@ func _physics_process(delta: float) -> void:
 		load_room(new_coords);
 		unload_room(cur_coords);
 		cur_coords = new_coords;
-	
 
 func load_room(coords: Vector2i):
 	var x = coords.x;
